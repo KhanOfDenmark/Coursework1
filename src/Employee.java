@@ -20,7 +20,7 @@ public class Employee {
         this.fullName = surname +" " +name;
         this.id = idGenerator++;
     }
-    public  Employee(String surname, String name, String patronymic,
+    public Employee(String surname, String name, String patronymic,
                      int department, int salary){
         this.id = idGenerator++;
         this.fullName = surname +" " +name +" " +patronymic;
