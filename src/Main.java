@@ -1,5 +1,195 @@
+import java.util.Random;
+
 public class Main {
+
+    public static final Employee[] EMPLOYEES = new Employee[10];
+    public static Employee[] SORTEDBYDEPARTMENT;
+
+    public static final Random RANDOM = new Random();
+    public static final String[] SURNAMES = {"Степанов","Ильин","Михалков","Владимиров","Аркадьев"};
+    public static final String[] NAMES = {"Степан","Илья","Михаил","Владимир","Аркадий"};
+    public static final String[] PATRONYMIC = {"Степанович","Ильичёв","Михайлович","Владимирович",
+            "Аркадьевич"};
+    public static int i;
+    public static int salary;
+
+    public static void putASeparator(){
+        System.out.println("***");
+    }
+
+    public static void println(Object text){
+        System.out.println(text);
+    }
+
+    public static void initEmployees(){
+        for(int i = 0; i < EMPLOYEES.length; i++){
+            EMPLOYEES[i] = new Employee(
+                    SURNAMES[RANDOM.nextInt(0,5)],
+                    NAMES[RANDOM.nextInt(0,5)],
+                    PATRONYMIC[RANDOM.nextInt(0,5)],
+                    (byte) RANDOM.nextInt(1,6),
+                    RANDOM.nextInt(50_000,100_000));
+        }
+    }
+
+    public static void printAllEmployees(){
+        for(Employee employee : EMPLOYEES){
+            println(employee);
+        }
+    }
+
+    public static int calculateTheCostAmount(){
+        int sum = 0;
+        for(Employee employee : EMPLOYEES){
+            sum += employee.getSalary();
+        }
+        return sum;
+    }
+
+    public static Employee minimumWageForEmployees(){
+        Employee min = EMPLOYEES[0];
+        for(Employee employee : EMPLOYEES){
+            if(min.getSalary() > employee.getSalary()) min = employee;
+        }
+        return min;
+    }
+
+    public static Employee maximumWageForEmployees(){
+        Employee max = EMPLOYEES[0];
+        for(Employee employee : EMPLOYEES){
+            if(max.getSalary() < employee.getSalary()) max = employee;
+        }
+        return max;
+    }
+
+    public static double averageValueOfSalaries(){
+        return (double)calculateTheCostAmount() /EMPLOYEES.length;
+    }
+
+    public static void printTheInitialsOfAllEmployees(){
+        for(Employee employee : EMPLOYEES){
+            println(employee.getFullName());
+        }
+    }
+
+    public static void indexSalaries(int percent){
+        for(Employee employee : EMPLOYEES){
+            employee.setSalary(employee.getSalary() +(employee.getSalary() *percent /100));
+        }
+    }
+
+    //Повышенная сложность
+
+    public static void sortByDepartment(int department){
+        i = 0;
+        for(Employee employee : EMPLOYEES){
+            if(employee.getDepartment()==(byte)department) i++;
+        }
+        SORTEDBYDEPARTMENT = new Employee[i];
+        i = 0;
+        for(Employee employee : EMPLOYEES){
+            if(employee.getDepartment()==(byte)department) SORTEDBYDEPARTMENT[i++] = employee;
+        }
+    }
+
+    public static Employee minimumWageForEmployeesSBD(){
+        Employee min = new Employee("", 0,0);
+        for(Employee employee : SORTEDBYDEPARTMENT){
+            if(min.getSalary() > employee.getSalary() || employee.getSalary() != 0) min = employee;
+        }
+        return min;
+    }
+
+    public static Employee maximumWageForEmployeesSBD(){
+        Employee max = new Employee("", 0,0);
+        for(Employee employee : SORTEDBYDEPARTMENT){
+            if(max.getSalary() < employee.getSalary()) max = employee;
+        }
+        return max;
+    }
+
+    public static int calculateTheCostAmountSBD(){
+        int sum = 0;
+        for(Employee employee : SORTEDBYDEPARTMENT){
+            sum += employee.getSalary();
+        }
+        return sum;
+    }
+
+    public static double averageValueOfSalariesSBD(){
+        return (double)calculateTheCostAmountSBD()
+                /SORTEDBYDEPARTMENT.length;
+    }
+
+    public static void indexSalariesSBD(int percent){
+        for(Employee employee : SORTEDBYDEPARTMENT){
+            employee.setSalary(employee.getSalary() +(employee.getSalary() *percent /100));
+        }
+    }
+
+    public static void printDepartmentEmployees(){
+        for(Employee employee : SORTEDBYDEPARTMENT){
+            println(employee.getFullName() +" | Зарплата: " +employee.getSalary());
+        }
+    }
+
+    public static void sortBySalary(int number){
+        salary = number;
+    }
+
+    public static void lessThanANumber(){
+        for(Employee employee : EMPLOYEES){
+            if(employee.getSalary() < salary)println(employee.getId() +" "
+                    +employee.getFullName() +" Зарплата: " +employee.getSalary());
+        }
+    }
+
+    public static void moreThanANumber(){
+        for(Employee employee : EMPLOYEES){
+            if(employee.getSalary() >= salary)println(employee.getId() +" "
+                    +employee.getFullName() +" | Зарплата: " +employee.getSalary());
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        initEmployees();
+        putASeparator();
+        printAllEmployees();
+        putASeparator();
+        println("Затраты: " +calculateTheCostAmount());
+        putASeparator();
+        println("Сотрудник с минимальной зарплатой - " +minimumWageForEmployees());
+        putASeparator();
+        println("Сотрудник с максимальной зарплатой - " +maximumWageForEmployees());
+        putASeparator();
+        println("Среднее значение зарплат : " +averageValueOfSalaries());
+        putASeparator();
+        printTheInitialsOfAllEmployees();
+        putASeparator();
+
+        //Повышенная сложность
+        indexSalaries(32);
+        printAllEmployees();
+        putASeparator();
+        sortByDepartment(4);
+        println("Сотрудник с минимальной зарплатой отдела - "
+                +minimumWageForEmployeesSBD());
+        putASeparator();
+        println("Сотрудник с максимальной зарплатой отдела - "
+                +maximumWageForEmployeesSBD());
+        putASeparator();
+        println("Затраты отдела #" +i +": " +calculateTheCostAmountSBD());
+        putASeparator();
+        println("Среднее значение зарплат отдела #" +i +": " + averageValueOfSalariesSBD());
+        putASeparator();
+        indexSalariesSBD(25);
+        printDepartmentEmployees();
+        putASeparator();
+        sortBySalary(100000);
+        putASeparator();
+        lessThanANumber();
+        putASeparator();
+        moreThanANumber();
+        putASeparator();
     }
 }
