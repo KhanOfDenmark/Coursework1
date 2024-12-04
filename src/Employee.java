@@ -21,7 +21,7 @@ public class Employee {
         this.id = idGenerator++;
     }
     public Employee(String surname, String name, String patronymic,
-                     int department, int salary){
+                    int department, int salary){
         this.id = idGenerator++;
         this.fullName = surname +" " +name +" " +patronymic;
         this.department = (byte)department;
