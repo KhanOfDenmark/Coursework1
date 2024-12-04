@@ -4,18 +4,18 @@ public class Employee {
 
     private final int id;
     private final String fullName;
-    private byte department;
+    private int department;
     private int salary;
 
     public Employee(String fullName, int department, int salary){
-        this.department = (byte)department;
+        this.department = department;
         this.salary = salary;
         this.fullName = fullName;
         this.id = idGenerator++;
     }
     public Employee(String surname, String name,
                     int department, int salary){
-        this.department = (byte)department;
+        this.department = department;
         this.salary = salary;
         this.fullName = surname +" " +name;
         this.id = idGenerator++;
@@ -24,7 +24,7 @@ public class Employee {
                     int department, int salary){
         this.id = idGenerator++;
         this.fullName = surname +" " +name +" " +patronymic;
-        this.department = (byte)department;
+        this.department = department;
         this.salary = salary;
     }
 
@@ -32,7 +32,7 @@ public class Employee {
     public String getFullName(){
         return this.fullName;
     }
-    public byte getDepartment(){
+    public int getDepartment(){
         return this.department;
     }
     public int getSalary(){
@@ -43,7 +43,7 @@ public class Employee {
     }
 
     public void setDepartment(int department){
-        this.department = (byte)department;
+        this.department = department;
     }
     public void setSalary(int salary){
         this.salary = salary;

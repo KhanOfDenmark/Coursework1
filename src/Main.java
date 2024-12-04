@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Main {
 
-    public static final Employee[] EMPLOYEES = new Employee[10];
+    public static Employee[] employees = new Employee[10];
 
     public static final Random RANDOM = new Random();
     public static final String[] SURNAMES = {"Степанов","Ильин","Михалков","Владимиров","Аркадьев"};
@@ -19,119 +19,119 @@ public class Main {
     }
 
     public static void initEmployees(){
-        for(int i = 0; i < EMPLOYEES.length; i++){
-            EMPLOYEES[i] = new Employee(
+        for(int i = 0; i < employees.length; i++){
+            employees[i] = new Employee(
                     SURNAMES[RANDOM.nextInt(0,5)],
                     NAMES[RANDOM.nextInt(0,5)],
                     PATRONYMIC[RANDOM.nextInt(0,5)],
-                    (byte) RANDOM.nextInt(1,6),
+                    RANDOM.nextInt(1,6),
                     RANDOM.nextInt(50_000,100_000));
         }
     }
 
     public static void printAllEmployees(){
-        for(Employee employee : EMPLOYEES){
+        for(Employee employee : employees)
             println(employee);
-        }
     }
 
-    public static int calculateTheCostAmount(){
+    public static void calculateTheCostAmount(){
         int sum = 0;
-        for(Employee employee : EMPLOYEES){
+        for(Employee employee : employees)
             sum += employee.getSalary();
-        }
-        return sum;
+        println("Затраты: " +sum);
     }
 
-    public static Employee minimumWageForEmployees(){
-        Employee min = EMPLOYEES[0];
-        for(Employee employee : EMPLOYEES){
+    public static void printMinimumWageForEmployees(){
+        Employee min = employees[0];
+        for(Employee employee : employees)
             if(min.getSalary() > employee.getSalary()) min = employee;
-        }
-        return min;
+        println("Сотрудник с минимальной зарплатой - " +min);
     }
 
-    public static Employee maximumWageForEmployees(){
-        Employee max = EMPLOYEES[0];
-        for(Employee employee : EMPLOYEES){
+    public static void printMaximumWageForEmployees(){
+        Employee max = employees[0];
+        for(Employee employee : employees)
             if(max.getSalary() < employee.getSalary()) max = employee;
-        }
-        return max;
+        println("Сотрудник с максимальной зарплатой - " +max);
     }
 
-    public static double averageValueOfSalaries(){
-        return (double)calculateTheCostAmount() /EMPLOYEES.length;
+    public static void printAverageValueOfSalaries(){
+        double sum = 0;
+        for(Employee employee : employees)
+            sum += employee.getSalary();
+        println("Среднее значение зарплат : " +(sum /employees.length));
     }
 
     public static void printTheInitialsOfAllEmployees(){
-        for(Employee employee : EMPLOYEES){
+        for(Employee employee : employees)
             println(employee.getFullName());
-        }
     }
 
     public static void indexSalaries(int percent){
-        for(Employee employee : EMPLOYEES){
+        for(Employee employee : employees)
             employee.setSalary(employee.getSalary() +(employee.getSalary() *percent /100));
-        }
     }
 
     //Повышенная сложность
 
-    public static Employee minimumWageForEmployeesSBD(int department){
+    public static void printMinimumWageForEmployeesSBD(int department){
         Employee min = new Employee("", 0,0);
-        for(Employee employee : EMPLOYEES)
-            if(employee.getDepartment()==(byte)department)
+        for(Employee employee : employees)
+            if(employee.getDepartment()==department)
                 if(min.getSalary() > employee.getSalary() || employee.getSalary() != 0)
                     min = employee;
-        return min;
+        println("Сотрудник с минимальной зарплатой отдела #" +department +" - " +min);
     }
 
-    public static Employee maximumWageForEmployeesSBD(int department){
+    public static void printMaximumWageForEmployeesSBD(int department){
         Employee max = new Employee("", 0,0);
-        for(Employee employee : EMPLOYEES)
-            if(employee.getDepartment()==(byte)department)
+        for(Employee employee : employees)
+            if(employee.getDepartment()==department)
                 if(max.getSalary() < employee.getSalary())
                     max = employee;
-        return max;
+        println("Сотрудник с максимальной зарплатой отдела #" +department +" - " +max);
     }
 
-    public static int calculateTheCostAmountSBD(int department){
+    public static void calculateTheCostAmountSBD(int department){
         int sum = 0;
-        for(Employee employee : EMPLOYEES)
-            if(employee.getDepartment()==(byte)department)
+        for(Employee employee : employees)
+            if(employee.getDepartment()==department)
                 sum += employee.getSalary();
-        return sum;
+        println("Затраты отдела #" +department +": " +sum);
     }
 
-    public static double averageValueOfSalariesSBD(int department){
+    public static void printAverageValueOfSalariesSBD(int department){
+        double sum = 0;
         int employeesOfTheDepartment = 0;
-        for(Employee employee : EMPLOYEES)
-            if(employee.getDepartment()==(byte)department)
+        for(Employee employee : employees)
+            if(employee.getDepartment()==department){
                 employeesOfTheDepartment++;
-        return (double)calculateTheCostAmountSBD((byte)department)
-                /employeesOfTheDepartment;
+                sum += employee.getSalary();
+            }
+        println("Среднее значение зарплат отдела #" +department +": " +(sum /employeesOfTheDepartment));
     }
 
     public static void indexSalariesSBD(int department, int percent){
-        for(Employee employee : EMPLOYEES)
-            if(employee.getDepartment()==(byte)department)
+        for(Employee employee : employees)
+            if(employee.getDepartment()==department)
                 employee.setSalary(employee.getSalary() +(employee.getSalary() *percent /100));
     }
 
     public static void printDepartmentEmployees(int department){
-        for(Employee employee : EMPLOYEES)
-            if(employee.getDepartment()==(byte)department)
+        println("Отдел #" +department);
+        for(Employee employee : employees)
+            if(employee.getDepartment()==department)
                 println(employee.getFullName() +" | Зарплата: " +employee.getSalary());
     }
 
-    public static void lessThanANumber(int salary){
-        for(Employee employee : EMPLOYEES)
+    public static void printSalariesLessThanANumber(int salary){
+        for(Employee employee : employees)
             if(employee.getSalary() < salary)
                 println(employee.getId() +" " +employee.getFullName() +" Зарплата: " +employee.getSalary());
     }
 
-    public static void moreThanANumber(int salary){
-        for(Employee employee : EMPLOYEES)
+    public static void printSalariesMoreThanANumber(int salary){
+        for(Employee employee : employees)
             if(employee.getSalary() >= salary)
                 println(employee.getId() +" " +employee.getFullName() +" | Зарплата: " +employee.getSalary());
     }
@@ -141,13 +141,13 @@ public class Main {
         putASeparator();
         printAllEmployees();
         putASeparator();
-        println("Затраты: " +calculateTheCostAmount());
+        calculateTheCostAmount();
         putASeparator();
-        println("Сотрудник с минимальной зарплатой - " +minimumWageForEmployees());
+        printMinimumWageForEmployees();
         putASeparator();
-        println("Сотрудник с максимальной зарплатой - " +maximumWageForEmployees());
+        printMaximumWageForEmployees();
         putASeparator();
-        println("Среднее значение зарплат : " +averageValueOfSalaries());
+        printAverageValueOfSalaries();
         putASeparator();
         printTheInitialsOfAllEmployees();
         putASeparator();
@@ -156,22 +156,20 @@ public class Main {
         indexSalaries(32);
         printAllEmployees();
         putASeparator();
-        println("Сотрудник с минимальной зарплатой отдела - "
-                +minimumWageForEmployeesSBD(2));
+        printMinimumWageForEmployeesSBD(2);
         putASeparator();
-        println("Сотрудник с максимальной зарплатой отдела - "
-                +maximumWageForEmployeesSBD(2));
+        printMaximumWageForEmployeesSBD(2);
         putASeparator();
-        println("Затраты отдела: " +calculateTheCostAmountSBD(2));
+        calculateTheCostAmountSBD(2);
         putASeparator();
-        println("Среднее значение зарплат отдела: " + averageValueOfSalariesSBD(2));
+        printAverageValueOfSalariesSBD(2);
         putASeparator();
         indexSalariesSBD(4,25);
         printDepartmentEmployees(4);
         putASeparator();
-        lessThanANumber(100000);
+        printSalariesLessThanANumber(100000);
         putASeparator();
-        moreThanANumber(100000);
+        printSalariesMoreThanANumber(100000);
         putASeparator();
     }
 }
